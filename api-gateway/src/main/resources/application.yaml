@@ -1,0 +1,30 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://user:password@localhost:8761/eureka
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: authentication-service
+          uri: lb://authentication-service
+          predicates:
+            - Path=/auth/**
+#          filters:
+#            - AuthenticationFilter
+        - id: discovery-service
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/web
+          filters:
+            - SetPath=/
+        - id: discovery-service-static
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/**
