@@ -1,5 +1,6 @@
-package com.danis0n.service;
+package com.danis0n.service.auth;
 
+import com.danis0n.service.http.HttpService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +8,6 @@ import org.springframework.http.*;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
 
@@ -16,7 +16,8 @@ import java.util.Optional;
 @Slf4j
 public class AuthorizationServiceJwt extends AuthorizationService {
 
-    private final RestTemplate restTemplate;
+    private final HttpService httpService;
+    private final static String URI_ADMIN = "http://localhost:8081/api/v1/auth/admin";
 
     @Override
     public Optional<AuthorizationResponse> authorize(@NonNull ServerHttpRequest request) {
@@ -27,27 +28,11 @@ public class AuthorizationServiceJwt extends AuthorizationService {
 
         try {
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-            headers.set(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + token);
+            Optional<Boolean> isAuthorized =
+                    httpService.verify(BEARER_PREFIX + token, URI_ADMIN);
 
-            HttpEntity<Boolean> entity = new HttpEntity<>(headers);
-
-            String uri = UriComponentsBuilder
-                    .fromUriString("http://localhost:8081/api/v1/auth/admin")
-                    .toUriString();
-
-            HttpEntity<Boolean> response = restTemplate.exchange(
-                    uri,
-                    HttpMethod.GET,
-                    entity,
-                    Boolean.class);
-
-            Boolean isAuthorized = response.getBody();
-
-            return isAuthorized == Boolean.TRUE ?
+            return isAuthorized.isPresent() && isAuthorized.get() == Boolean.TRUE ?
                     Optional.of(new AuthorizationResponse("ADMIN")) : Optional.empty();
-
 
         } catch (Exception e) {
             log.error(String.valueOf(e));

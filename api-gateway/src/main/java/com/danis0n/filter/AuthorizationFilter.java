@@ -1,6 +1,6 @@
 package com.danis0n.filter;
 
-import com.danis0n.service.AuthorizationService;
+import com.danis0n.service.auth.AuthorizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
@@ -62,11 +62,6 @@ public class AuthorizationFilter
         };
     }
 
-    private Mono<Void> handleExceptionBehavior(ServerHttpResponse response) {
-        response.setStatusCode(HttpStatusCode.valueOf(HttpStatus.SC_UNAUTHORIZED));
-        return response.setComplete();
-    }
-
     public Optional<Boolean> authorize(ServerHttpRequest request, String requiredRole) {
         for (AuthorizationService authService : authServices) {
             Optional<AuthorizationService.AuthorizationResponse> isAuthorized = authService.authorize(request);
@@ -88,7 +83,11 @@ public class AuthorizationFilter
 
     @Override
     public List<String> shortcutFieldOrder() {
-        // we need this to use shortcuts in the application.yml
         return List.of("role");
+    }
+
+    private Mono<Void> handleExceptionBehavior(ServerHttpResponse response) {
+        response.setStatusCode(HttpStatusCode.valueOf(HttpStatus.SC_UNAUTHORIZED));
+        return response.setComplete();
     }
 }
