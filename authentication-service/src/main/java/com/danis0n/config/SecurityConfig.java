@@ -1,53 +1,79 @@
 package com.danis0n.config;
 
-import com.danis0n.service.AuthService;
+import com.danis0n.service.auth.AuthService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    @Bean
-    public UserDetailsService userDetailsService(){
-        return new AuthService();
-    }
+    private final List<AuthService> authServices;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/login").permitAll()
-                .and()
+        return http
+                .csrf()
+                .disable()
+                .addFilterAt(this::authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(config -> {
+                    config.anyRequest().authenticated();
+                })
+                .sessionManagement(config -> {
+                    config.sessionCreationPolicy(STATELESS);
+                })
+                .exceptionHandling(conf -> {
+                    conf.authenticationEntryPoint(this::authenticationFailedHandler);
+                })
                 .build();
     }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        return authenticationProvider;
+    private void authenticationFilter(
+            ServletRequest request, ServletResponse response, FilterChain chain
+    ) throws IOException, ServletException {
+        Optional<Authentication> authentication = this.authenticate((HttpServletRequest) request);
+        authentication.ifPresent(SecurityContextHolder.getContext()::setAuthentication);
+        chain.doFilter(request, response);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    private Optional<Authentication> authenticate(HttpServletRequest request) {
+        for (AuthService authService: this.authServices) {
+            Optional<Authentication> authentication = authService.authenticate(request);
+            if (authentication.isPresent()) {
+                return authentication;
+            }
+        }
+        return Optional.empty();
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    private void authenticationFailedHandler(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
+        response.setHeader(HttpHeaders.WWW_AUTHENTICATE, "Basic");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.danis0n.service;
+package com.danis0n.service.old;
 
 import com.danis0n.repository.UserRepository;
 import com.danis0n.entity.AUser;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements UserDetailsService {
+public class AuthServiceSimple implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;

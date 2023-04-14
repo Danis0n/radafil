@@ -1,4 +1,4 @@
-package com.danis0n.service;
+package com.danis0n.service.old;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

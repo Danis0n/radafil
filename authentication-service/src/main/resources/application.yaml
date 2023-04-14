@@ -17,3 +17,10 @@ eureka:
 
 server:
   port: 8081
+
+auth:
+  basic:
+    username: 'danis0n'
+    password: 'password'
+  jwt:
+    hmacKey: 'secret'

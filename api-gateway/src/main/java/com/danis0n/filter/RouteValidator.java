@@ -9,8 +9,10 @@ import java.util.function.Predicate;
 @Component
 public class RouteValidator {
 
+//    TODO: move to yaml file with openApiEndpoints
     public static final List<String> openApiEndpoints = List.of(
-            "/api/v1/auth/login"
+//            "/api/v1/auth/system",
+//            "/api/v1/auth/user"
     );
 
     public Predicate<ServerHttpRequest> isSecured =
