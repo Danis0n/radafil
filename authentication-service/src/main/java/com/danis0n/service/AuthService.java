@@ -1,4 +1,4 @@
-package com.danis0n.service.auth;
+package com.danis0n.service;
 
 import com.danis0n.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ public abstract class AuthService {
     private static final String BEARER_PREFIX = "Bearer ";
     private static final Base64.Decoder B64_DECODER = Base64.getDecoder();
 
-    public abstract Optional<Authentication> authenticate(HttpServletRequest request);
+    public abstract Optional<Authentication> authenticate(@NonNull HttpServletRequest request);
 
     protected static Optional<Credentials> extractBasicAuthHeader(@NonNull HttpServletRequest request) {
         try {

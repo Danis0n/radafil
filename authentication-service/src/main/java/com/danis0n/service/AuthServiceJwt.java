@@ -1,4 +1,4 @@
-package com.danis0n.service.auth;
+package com.danis0n.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.danis0n.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -27,8 +28,7 @@ public class AuthServiceJwt extends AuthService {
     }
 
     @Override
-    public Optional<Authentication> authenticate(HttpServletRequest request) {
-        log.info("HERE");
+    public Optional<Authentication> authenticate(@NonNull HttpServletRequest request) {
         return extractBearerTokenHeader(request).flatMap(this::verify);
     }
 

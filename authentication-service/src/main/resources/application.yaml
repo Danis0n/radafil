@@ -9,18 +9,21 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+  redis:
+    host: localhost
+    port: 6379
+#    password: b8d166e73f5eeeeb611f47d0b574a5e5c02878825cf4e38ed1fbed67c64301e2
+  session:
+    store-type: redis
 
 eureka:
   client:
     service-url:
-      defaultZone : http://user:password@localhost:8761/eureka
+      defaultZone: http://user:password@localhost:8761/eureka
 
 server:
   port: 8081
 
 auth:
-  basic:
-    username: 'danis0n'
-    password: 'password'
   jwt:
     hmacKey: 'secret'

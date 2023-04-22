@@ -1,4 +1,4 @@
-package com.danis0n.service.auth;
+package com.danis0n.service;
 
 import lombok.Getter;
 import lombok.NonNull;

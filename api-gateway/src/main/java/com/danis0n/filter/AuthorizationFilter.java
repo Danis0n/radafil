@@ -1,6 +1,7 @@
 package com.danis0n.filter;
 
-import com.danis0n.service.auth.AuthorizationService;
+import com.danis0n.service.AuthorizationService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
@@ -62,13 +63,17 @@ public class AuthorizationFilter
         };
     }
 
-    public Optional<Boolean> authorize(ServerHttpRequest request, String requiredRole) {
+    public Optional<Boolean> authorize(@NonNull ServerHttpRequest request,
+                                       @NonNull final String requiredRole) {
         for (AuthorizationService authService : authServices) {
-            Optional<AuthorizationService.AuthorizationResponse> isAuthorized = authService.authorize(request);
+
+            Optional<AuthorizationService.AuthorizationResponse> isAuthorized =
+                    authService.authorize(request);
 
             if (isAuthorized.isPresent()) {
+                String currentRole = isAuthorized.get().getRole();
                 return Optional.of(
-                        validate(requiredRole, isAuthorized.get().getRole())
+                        validate(requiredRole, currentRole)
                 );
             }
 
@@ -77,7 +82,7 @@ public class AuthorizationFilter
     }
 
     @Override
-    public boolean validate(String requiredRole, String currentRole) {
+    public boolean validate(final String requiredRole, final String currentRole) {
         return requiredRole.equals(NONE_ROLE) || currentRole.equals(requiredRole);
     }
 

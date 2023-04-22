@@ -17,7 +17,7 @@ public class HttpService {
 
     private final RestTemplate restTemplate;
 
-    public Optional<Boolean> verify(@NonNull String authorizationHeader, @NonNull String uri) {
+    public Optional<Boolean> sendRequest(@NonNull final String authorizationHeader, @NonNull final String uri) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);

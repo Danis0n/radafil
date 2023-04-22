@@ -1,6 +1,6 @@
 package com.danis0n.config;
 
-import com.danis0n.service.auth.AuthService;
+import com.danis0n.service.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -57,12 +57,14 @@ public class SecurityConfig {
             ServletRequest request, ServletResponse response, FilterChain chain
     ) throws IOException, ServletException {
         Optional<Authentication> authentication = this.authenticate((HttpServletRequest) request);
+
         authentication.ifPresent(SecurityContextHolder.getContext()::setAuthentication);
         chain.doFilter(request, response);
     }
 
     private Optional<Authentication> authenticate(HttpServletRequest request) {
         for (AuthService authService: this.authServices) {
+
             Optional<Authentication> authentication = authService.authenticate(request);
             if (authentication.isPresent()) {
                 return authentication;
@@ -71,7 +73,9 @@ public class SecurityConfig {
         return Optional.empty();
     }
 
-    private void authenticationFailedHandler(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
+    private void authenticationFailedHandler(HttpServletRequest request,
+                                             HttpServletResponse response,
+                                             AuthenticationException authException) {
         response.setHeader(HttpHeaders.WWW_AUTHENTICATE, "Basic");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
