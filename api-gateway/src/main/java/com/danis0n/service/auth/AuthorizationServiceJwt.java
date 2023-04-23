@@ -1,4 +1,4 @@
-package com.danis0n.service;
+package com.danis0n.service.auth;
 
 import com.danis0n.service.http.HttpService;
 import lombok.NonNull;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.danis0n.enums.Role.ADMIN;
+import static com.danis0n.enums.Role.SYSTEM;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +17,7 @@ import static com.danis0n.enums.Role.ADMIN;
 public class AuthorizationServiceJwt extends AuthorizationService {
 
     private final HttpService httpService;
-    private final static String URI_ADMIN = "http://localhost:8081/api/v1/auth/admin";
+    private final static String URI_SYSTEM = "http://localhost:8081/api/v1/auth/system";
 
     @Override
     public Optional<AuthorizationResponse> authorize(@NonNull ServerHttpRequest request) {
@@ -29,10 +29,10 @@ public class AuthorizationServiceJwt extends AuthorizationService {
         try {
 
             Optional<Boolean> isAuthorized =
-                    httpService.sendRequest(BEARER_PREFIX + token, URI_ADMIN);
+                    httpService.sendRequest(URI_SYSTEM, token, BEARER_PREFIX);
 
             return isAuthorized.isPresent() && isAuthorized.get() == Boolean.TRUE ?
-                    Optional.of(new AuthorizationResponse(ADMIN.toString())) : Optional.empty();
+                    Optional.of(new AuthorizationResponse(SYSTEM.toString())) : Optional.empty();
 
         } catch (Exception e) {
             log.error(String.valueOf(e));

@@ -1,4 +1,4 @@
-package com.danis0n.service;
+package com.danis0n.service.auth;
 
 import com.danis0n.service.http.HttpService;
 import lombok.NonNull;
@@ -29,7 +29,7 @@ public class AuthorizationServiceRedis extends AuthorizationService {
         try {
 
             Optional<Boolean> isAuthorized =
-                    httpService.sendRequest(BEARER_PREFIX + token, URI_USER);
+                    httpService.sendRequest(URI_USER, token, BEARER_PREFIX);
 
             return isAuthorized.isPresent() && isAuthorized.get() == Boolean.TRUE ?
                     Optional.of(new AuthorizationResponse(USER.toString())) : Optional.empty();

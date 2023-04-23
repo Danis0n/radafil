@@ -1,6 +1,6 @@
 package com.danis0n.config;
 
-import com.danis0n.service.AuthService;
+import com.danis0n.service.auth.AuthorizationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -31,9 +31,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity(prePostEnabled = true)
-public class SecurityConfig {
+public class SecurityConfiguration {
 
-    private final List<AuthService> authServices;
+    private final List<AuthorizationService> authServices;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -63,7 +63,7 @@ public class SecurityConfig {
     }
 
     private Optional<Authentication> authenticate(HttpServletRequest request) {
-        for (AuthService authService: this.authServices) {
+        for (AuthorizationService authService: this.authServices) {
 
             Optional<Authentication> authentication = authService.authenticate(request);
             if (authentication.isPresent()) {

@@ -1,4 +1,4 @@
-package com.danis0n.service;
+package com.danis0n.service.auth;
 
 import com.danis0n.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toList;
 
 @Slf4j
-public abstract class AuthService {
+public abstract class AuthorizationService {
 
     private static final String BASIC_PREFIX = "Basic ";
     private static final String BEARER_PREFIX = "Bearer ";
@@ -34,7 +34,9 @@ public abstract class AuthService {
         try {
 
             String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+
             if (nonNull(authorization)) {
+
                 if (authorization.startsWith(BASIC_PREFIX)) {
                     String encodedCredentials = authorization.substring(BASIC_PREFIX.length());
                     String decodedCredentials = new String(B64_DECODER.decode(encodedCredentials), UTF_8);
@@ -44,7 +46,9 @@ public abstract class AuthService {
                         Credentials credentials = new Credentials(split[0], split[1]);
                         return Optional.of(credentials);
                     }
+
                 }
+
             }
             return Optional.empty();
 

@@ -1,6 +1,6 @@
 package com.danis0n.filter;
 
-import com.danis0n.service.AuthorizationService;
+import com.danis0n.service.auth.AuthorizationService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

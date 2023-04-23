@@ -1,4 +1,4 @@
-package com.danis0n.service;
+package com.danis0n.service.auth;
 
 import com.danis0n.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +16,7 @@ import static java.util.Objects.nonNull;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthServiceRedis extends AuthService {
+public class AuthorizationServiceRedis extends AuthorizationService {
 
     private final RedisTemplate<String, String> redis;
 
