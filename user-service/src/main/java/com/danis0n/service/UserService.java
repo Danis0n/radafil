@@ -1,5 +1,9 @@
 package com.danis0n.service;
 
-public interface UserService {
+import com.danis0n.dto.CreateUserDto;
+import com.danis0n.dto.UserDto;
 
+public interface UserService {
+    UserDto findUserByUUID(String uuid);
+    UserDto create(CreateUserDto dto);
 }
