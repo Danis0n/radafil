@@ -1,22 +1,18 @@
-package com.danis0n.service.http;
+package com.danis0n.client;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class HttpService {
+public class AuthClient {
 
     private final RestTemplate restTemplate;
 

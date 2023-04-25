@@ -1,6 +1,6 @@
 package com.danis0n.service.auth;
 
-import com.danis0n.service.http.HttpService;
+import com.danis0n.client.AuthClient;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import static com.danis0n.enums.Role.USER;
 @RequiredArgsConstructor
 public class AuthorizationServiceRedis extends AuthorizationService {
 
-    private final HttpService httpService;
+    private final AuthClient authClient;
     private final static String URI_USER = "http://localhost:8081/api/v1/auth/user";
 
     @Override
@@ -29,7 +29,7 @@ public class AuthorizationServiceRedis extends AuthorizationService {
         try {
 
             Optional<Boolean> isAuthorized =
-                    httpService.sendRequest(URI_USER, token, BEARER_PREFIX);
+                    authClient.sendRequest(URI_USER, token, BEARER_PREFIX);
 
             return isAuthorized.isPresent() && isAuthorized.get() == Boolean.TRUE ?
                     Optional.of(new AuthorizationResponse(USER.toString())) : Optional.empty();

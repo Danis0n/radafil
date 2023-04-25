@@ -1,6 +1,6 @@
 package com.danis0n.service.auth;
 
-import com.danis0n.service.http.HttpService;
+import com.danis0n.client.AuthClient;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,12 +11,12 @@ import java.util.Optional;
 
 import static com.danis0n.enums.Role.SYSTEM;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class AuthorizationServiceJwt extends AuthorizationService {
 
-    private final HttpService httpService;
+    private final AuthClient authClient;
     private final static String URI_SYSTEM = "http://localhost:8081/api/v1/auth/system";
 
     @Override
@@ -29,7 +29,7 @@ public class AuthorizationServiceJwt extends AuthorizationService {
         try {
 
             Optional<Boolean> isAuthorized =
-                    httpService.sendRequest(URI_SYSTEM, token, BEARER_PREFIX);
+                    authClient.sendRequest(URI_SYSTEM, token, BEARER_PREFIX);
 
             return isAuthorized.isPresent() && isAuthorized.get() == Boolean.TRUE ?
                     Optional.of(new AuthorizationResponse(SYSTEM.toString())) : Optional.empty();
