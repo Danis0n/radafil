@@ -1,18 +1,13 @@
 package com.danis0n.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class AppConfiguration {
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+@RequiredArgsConstructor
+public class WebConfiguration {
 
     @Bean
     public RestTemplate template(){
@@ -20,3 +15,4 @@ public class AppConfiguration {
     }
 
 }
+
