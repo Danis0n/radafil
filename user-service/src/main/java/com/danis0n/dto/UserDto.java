@@ -1,13 +1,12 @@
 package com.danis0n.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-import java.util.List;
-
+@Getter
 @AllArgsConstructor
 public class UserDto {
-
     private String uuid;
     private String username;
-    private List<String> roles;
+    private String email;
 }
