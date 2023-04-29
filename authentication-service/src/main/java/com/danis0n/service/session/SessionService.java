@@ -12,13 +12,13 @@ public class SessionService {
 
     private final SessionDao sessionDao;
 
-    public Boolean save(String uuid, String username) {
+    public void save(String uuid, String username) {
         Session session = new Session(uuid, username);
-        return sessionDao.save(session);
+        sessionDao.save(session);
     }
 
-    public Boolean delete(String uuid) {
-        return sessionDao.delete(uuid);
+    public void delete(String uuid) {
+        sessionDao.delete(uuid);
     }
 
 }
