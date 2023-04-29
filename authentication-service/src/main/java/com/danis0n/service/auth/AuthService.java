@@ -1,4 +1,4 @@
-package com.danis0n.service.authorization;
+package com.danis0n.service.auth;
 
 import com.danis0n.constant.TokenUnit;
 import com.danis0n.enums.Role;
@@ -23,13 +23,11 @@ import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toList;
 
 @Slf4j
-public abstract class AuthorizationService {
+public abstract class AuthService {
 
-    private static final String BASIC_PREFIX = TokenUnit.BASIC_PREFIX;
-    private static final String BEARER_PREFIX = TokenUnit.BEARER_PREFIX;
-    private static final Base64.Decoder B64_DECODER = Base64.getDecoder();
-
-    public abstract Optional<Authentication> authorize(@NonNull HttpServletRequest request);
+    protected static final String BASIC_PREFIX = TokenUnit.BASIC_PREFIX;
+    protected static final String BEARER_PREFIX = TokenUnit.BEARER_PREFIX;
+    protected static final Base64.Decoder B64_DECODER = Base64.getDecoder();
 
     protected static Optional<Credentials> extractBasicAuthHeader(@NonNull HttpServletRequest request) {
         try {
@@ -95,6 +93,5 @@ public abstract class AuthorizationService {
         @ToString.Exclude
         private final String password;
     }
-
 
 }

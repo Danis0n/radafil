@@ -1,4 +1,4 @@
-package com.danis0n.service.authorization;
+package com.danis0n.service.auth.authorization;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

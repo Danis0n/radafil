@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
 public class AuthenticationData implements UserDetails {
 
     private String username;

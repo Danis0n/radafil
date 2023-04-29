@@ -1,4 +1,4 @@
-package com.danis0n.service.authorization;
+package com.danis0n.service.auth.authorization;
 
 import com.danis0n.client.UserClient;
 import com.danis0n.entity.AuthenticationData;

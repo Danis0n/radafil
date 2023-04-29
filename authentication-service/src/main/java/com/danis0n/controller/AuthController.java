@@ -1,7 +1,7 @@
 package com.danis0n.controller;
 
 import com.danis0n.dto.LoginRequestDto;
-import com.danis0n.service.authentication.AuthenticationService;
+import com.danis0n.service.auth.authentication.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
