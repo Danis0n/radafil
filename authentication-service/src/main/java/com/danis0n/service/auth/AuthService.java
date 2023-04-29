@@ -1,6 +1,5 @@
 package com.danis0n.service.auth;
 
-import com.danis0n.constant.TokenUnit;
 import com.danis0n.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
@@ -25,8 +24,8 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public abstract class AuthService {
 
-    protected static final String BASIC_PREFIX = TokenUnit.BASIC_PREFIX;
-    protected static final String BEARER_PREFIX = TokenUnit.BEARER_PREFIX;
+    protected static final String BASIC = "Basic ";
+    protected static final String BEARER = "Bearer ";
     protected static final Base64.Decoder B64_DECODER = Base64.getDecoder();
 
     protected static Optional<Credentials> extractBasicAuthHeader(@NonNull HttpServletRequest request) {
@@ -36,8 +35,8 @@ public abstract class AuthService {
 
             if (nonNull(authorization)) {
 
-                if (authorization.startsWith(BASIC_PREFIX)) {
-                    String encodedCredentials = authorization.substring(BASIC_PREFIX.length());
+                if (authorization.startsWith(BASIC)) {
+                    String encodedCredentials = authorization.substring(BASIC.length());
                     String decodedCredentials = new String(B64_DECODER.decode(encodedCredentials), UTF_8);
 
                     if (decodedCredentials.contains(":")) {
@@ -62,14 +61,16 @@ public abstract class AuthService {
 
             String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
             if (nonNull(authorization)) {
-                if (authorization.startsWith(BEARER_PREFIX)) {
-                    String token = authorization.substring(BEARER_PREFIX.length()).trim();
+
+                if (authorization.startsWith(BEARER)) {
+                    String token = authorization.substring(BEARER.length()).trim();
 
                     if (!token.isBlank()) {
                         return Optional.of(token);
                     }
 
                 }
+
             }
             return Optional.empty();
 
