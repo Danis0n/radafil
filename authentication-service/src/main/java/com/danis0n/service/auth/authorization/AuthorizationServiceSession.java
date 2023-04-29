@@ -29,10 +29,13 @@ public class AuthorizationServiceSession extends AuthorizationService {
     private Optional<Authentication> lookup(String token) {
         try {
             Session session = this.redis.opsForValue().get(token);
+
             if (nonNull(session)) {
-                Authentication authentication = createAuthentication(session.getUsername(), Role.USER);
+                Authentication authentication =
+                        createAuthentication(session.getUsername(), Role.USER);
                 return Optional.of(authentication);
             }
+
             return Optional.empty();
         } catch (Exception e) {
             log.warn("Unknown error while trying to look up Redis token", e);
