@@ -1,6 +1,7 @@
 package com.danis0n.exception;
 
 import com.danis0n.entity.ErrorMessage;
+import jakarta.ws.rs.ForbiddenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,5 +27,13 @@ public class RestResponseEntityExceptionHandler
     public ErrorMessage usernameNotFoundHandler(UsernameNotFoundException exception) {
         return new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
     }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(ForbiddenException.class)
+    public ErrorMessage logoutHandler(ForbiddenException exception) {
+        return new ErrorMessage(HttpStatus.FORBIDDEN, exception.getMessage());
+    }
+
 
 }
