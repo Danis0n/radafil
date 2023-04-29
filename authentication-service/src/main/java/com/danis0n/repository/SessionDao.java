@@ -15,23 +15,38 @@ public class SessionDao {
     private final TimeUnit SESSION_EXPIRE_TYPE = TimeUnit.DAYS;
     private final Integer SESSION_EXPIRE_TIME_IN_DAYS = 10;
 
-    public void save(Session session) {
-        redis.opsForValue()
-                .set(
-                        session.getSessionId(),
-                        session,
-                        SESSION_EXPIRE_TIME_IN_DAYS,
-                        SESSION_EXPIRE_TYPE
-                );
+    public Boolean save(Session session) {
+        try {
+
+            redis.opsForValue()
+                    .set(
+                            session.getSessionId(),
+                            session,
+                            SESSION_EXPIRE_TIME_IN_DAYS,
+                            SESSION_EXPIRE_TYPE
+                    );
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public void delete(String uuid) {
-        redis.opsForValue()
-                .set(
-                        uuid,
-                        new Session(),
-                        1,
-                        TimeUnit.NANOSECONDS
-                );
+    public Boolean delete(String uuid) {
+
+        try {
+            redis.opsForValue()
+                    .set(
+                            uuid,
+                            new Session(),
+                            1,
+                            TimeUnit.NANOSECONDS
+                    );
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+
     }
 }
