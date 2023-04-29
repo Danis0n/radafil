@@ -5,5 +5,5 @@ import com.danis0n.dto.UserDto;
 
 public interface UserService {
     UserDto findUserByUUID(String uuid);
-    UserDto create(CreateUserDto dto);
+    void addUser(CreateUserDto dto);
 }
