@@ -3,15 +3,16 @@ package com.danis0n.service.cookie;
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.Cookie;
 
+import static com.danis0n.constant.SessionConfiguration.SESSION_EXPIRE_TIME_IN_SECONDS;
+import static com.danis0n.constant.SessionConfiguration.SESSION_NAME;
+
+
 @Service
 public class CookieService {
 
-    private final String SESSION_NAME = "session";
-    private final Integer SESSION_EXPIRE_TIME = 60 * 60 * 24 * 10;
-
     public Cookie createSessionCookie(String uuid) {
         Cookie cookie = new Cookie(SESSION_NAME, uuid);
-        cookie.setMaxAge(SESSION_EXPIRE_TIME);
+        cookie.setMaxAge(SESSION_EXPIRE_TIME_IN_SECONDS);
         cookie.setSecure(true);
 
         return cookie;
