@@ -12,15 +12,4 @@ public class ApiGatewayApplication {
         SpringApplication.run(ApiGatewayApplication.class, args);
     }
 
-//    @Bean
-//    public RouteLocator customRouteLocator(
-//            RouteLocatorBuilder builder, AuthenticationFilter authenticationFilter
-//    ) {
-//        return builder.routes()
-//                .route("user-service", r -> r.path("/api/v1/user/**")
-//                        .filters(f -> f.filter(authenticationFilter.apply(new AuthenticationFilter.Config())))
-//                        .uri("lb://user-service"))
-//                .build();
-//    }
-
 }
