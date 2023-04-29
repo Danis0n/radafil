@@ -6,7 +6,6 @@ import com.danis0n.service.session.SessionService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.ForbiddenException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,49 +35,36 @@ public class AuthenticationServiceSession extends AuthenticationService {
                 )
         );
 
-        String UUID = randomUUID().toString();
+        String uuid = randomUUID().toString();
 
-        sessionService.save(UUID, request.getUsername());
-        Cookie cookie = cookieService.createSessionCookie(UUID);
+        sessionService.save(uuid, request.getUsername());
+        Cookie cookie = cookieService.createSessionCookie(uuid);
         response.addCookie(cookie);
 
-        return UUID;
+        return uuid;
     }
 
     @Override
     public Boolean logout(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response) {
-        return extractBearerTokenHeader(request)
-                .flatMap(this::deleteSession)
-                .flatMap((isDeleted -> deleteCookies(isDeleted, response)))
-                .orElseThrow(() -> new ForbiddenException("error while logout"));
-    }
+        Optional<String> token = extractBearerTokenHeader(request);
 
+        if (token.isPresent()) {
 
-    private Optional<Boolean> deleteSession(@NonNull String token) {
-        try {
-            return Optional.of(
-                    sessionService.delete(token)
-            );
-        } catch (Exception e) {
-            log.info("Error while setting session");
-            return Optional.empty();
+            try {
+
+                sessionService.delete(token.get());
+                Cookie cookie = cookieService.deleteSessionCookie();
+                response.addCookie(cookie);
+
+            } catch (Exception e) {
+                log.error("Error occurred while logout");
+                return false;
+            }
+
         }
+
+        return false;
     }
 
-    private Optional<Boolean> deleteCookies(@NonNull Boolean valid, @NonNull HttpServletResponse response) {
-        if (!valid) return Optional.of(false);
-
-        try {
-
-            Cookie cookie = cookieService.deleteSessionCookie();
-            response.addCookie(cookie);
-
-            return Optional.of(true);
-
-        } catch (Exception e) {
-            log.info("Error while deleting cookie");
-            return Optional.of(false);
-        }
-    }
 
 }
