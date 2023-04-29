@@ -1,5 +1,6 @@
-package com.danis0n.service.auth;
+package com.danis0n.service.authorization;
 
+import com.danis0n.entity.Session;
 import com.danis0n.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
@@ -18,18 +19,18 @@ import static java.util.Objects.nonNull;
 @RequiredArgsConstructor
 public class AuthorizationServiceRedis extends AuthorizationService {
 
-    private final RedisTemplate<String, String> redis;
+    private final RedisTemplate<String, Session> redis;
 
     @Override
-    public Optional<Authentication> authenticate(@NonNull HttpServletRequest request) {
+    public Optional<Authentication> authorize(@NonNull HttpServletRequest request) {
         return extractBearerTokenHeader(request).flatMap(this::lookup);
     }
 
     private Optional<Authentication> lookup(String token) {
         try {
-            String userId = this.redis.opsForValue().get(token);
-            if (nonNull(userId)) {
-                Authentication authentication = createAuthentication(userId, Role.USER);
+            Session session = this.redis.opsForValue().get(token);
+            if (nonNull(session)) {
+                Authentication authentication = createAuthentication(session.getUsername(), Role.USER);
                 return Optional.of(authentication);
             }
             return Optional.empty();

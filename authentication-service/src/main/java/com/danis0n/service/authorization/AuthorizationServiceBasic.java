@@ -1,7 +1,7 @@
-package com.danis0n.service.auth;
+package com.danis0n.service.authorization;
 
 import com.danis0n.client.UserClient;
-import com.danis0n.dto.AuthenticationData;
+import com.danis0n.entity.AuthenticationData;
 import com.danis0n.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
@@ -24,7 +24,7 @@ public class AuthorizationServiceBasic extends AuthorizationService {
     private final UserClient userClient;
 
     @Override
-    public Optional<Authentication> authenticate(@NonNull HttpServletRequest request) {
+    public Optional<Authentication> authorize(@NonNull HttpServletRequest request) {
         return extractBasicAuthHeader(request).flatMap(this::check);
     }
 
@@ -32,7 +32,7 @@ public class AuthorizationServiceBasic extends AuthorizationService {
         try {
 
             AuthenticationData data = userClient
-                    .retrieveCredentialsByUsername(credentials.getUsername())
+                    .retrieveAdminCredentialsByUsername(credentials.getUsername())
                     .getBody();
 
             if (!nonNull(data)) return Optional.empty();

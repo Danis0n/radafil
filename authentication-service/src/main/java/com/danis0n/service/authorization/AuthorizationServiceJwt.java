@@ -1,4 +1,4 @@
-package com.danis0n.service.auth;
+package com.danis0n.service.authorization;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -28,7 +28,7 @@ public class AuthorizationServiceJwt extends AuthorizationService {
     }
 
     @Override
-    public Optional<Authentication> authenticate(@NonNull HttpServletRequest request) {
+    public Optional<Authentication> authorize(@NonNull HttpServletRequest request) {
         return extractBearerTokenHeader(request).flatMap(this::verify);
     }
 
