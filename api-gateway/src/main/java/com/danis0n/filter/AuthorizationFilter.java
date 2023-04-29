@@ -58,8 +58,7 @@ public class AuthorizationFilter
 
             }
 
-            ServerHttpResponse response = exchange.getResponse();
-            return handleExceptionBehavior(response);
+            return chain.filter(exchange);
         };
     }
 
