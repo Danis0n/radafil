@@ -25,7 +25,7 @@ public class CredentialsController {
             @RequestParam("username") String username
     ) {
         return ResponseEntity.ok(
-                new AuthenticationData(username, "1234")
+                new AuthenticationData(username, BCRYPT.encode("1234"))
         );
     }
 
