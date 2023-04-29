@@ -1,34 +1,35 @@
 package com.danis0n.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Collection;
+import java.util.UUID;
 
 @Entity
 @Table(name = "app_user")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String uuid;
+    private UUID uuid;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(
-            fetch = FetchType.EAGER
-    )
-    private Collection<Role> roles;
+    @Column(name = "email", unique = true)
+    private String email;
 
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 }
