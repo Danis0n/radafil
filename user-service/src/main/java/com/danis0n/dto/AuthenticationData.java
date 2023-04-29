@@ -1,9 +1,9 @@
 package com.danis0n.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Builder
+@AllArgsConstructor
 @Getter
 public class AuthenticationData {
     private String username;
