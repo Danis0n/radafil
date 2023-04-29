@@ -1,7 +1,7 @@
 package com.danis0n.controller;
 
 import com.danis0n.dto.LoginRequestDto;
-import com.danis0n.service.auth.authentication.AuthenticationService;
+import com.danis0n.service.auth.authentication.AuthenticationServiceSession;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/auth")
 public class AuthController {
 
-    private final AuthenticationService service;
+    private final AuthenticationServiceSession service;
 
     @GetMapping
     public String test() {
@@ -24,8 +24,8 @@ public class AuthController {
 
     @PostMapping("login")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto request, HttpServletResponse response) {
-        return ResponseEntity.ok(service.login(request, response));
+    public ResponseEntity<String> authenticate(@RequestBody LoginRequestDto request, HttpServletResponse response) {
+        return ResponseEntity.ok(service.authenticate(request, response));
     }
 
     @PostMapping("logout")

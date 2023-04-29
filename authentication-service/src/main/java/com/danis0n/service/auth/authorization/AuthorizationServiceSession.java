@@ -17,7 +17,7 @@ import static java.util.Objects.nonNull;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthorizationServiceRedis extends AuthorizationService {
+public class AuthorizationServiceSession extends AuthorizationService {
 
     private final RedisTemplate<String, Session> redis;
 
