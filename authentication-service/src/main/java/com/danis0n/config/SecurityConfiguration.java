@@ -36,7 +36,6 @@ public class SecurityConfiguration {
 
     private final List<AuthorizationService> authServices;
 
-    // TODO: 26.04.2023 ADD AUTH-FREE REQUESTS FROM API-GATEWAY : LOCALHOST:8080
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
