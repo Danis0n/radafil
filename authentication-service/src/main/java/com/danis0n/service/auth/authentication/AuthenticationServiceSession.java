@@ -55,6 +55,7 @@ public class AuthenticationServiceSession extends AuthenticationService {
                 sessionService.delete(token.get());
                 Cookie cookie = cookieService.deleteSessionCookie();
                 response.addCookie(cookie);
+                return true;
 
             } catch (Exception e) {
                 log.error("Error occurred while logout");
