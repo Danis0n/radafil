@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "app_admin")
 @Getter
@@ -15,7 +17,7 @@ import lombok.Setter;
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String uuid;
+    private UUID uuid;
 
     @Column(name = "username", unique = true)
     private String username;
