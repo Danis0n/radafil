@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.danis0n.constant.SessionConfiguration.SESSION_EXPIRE_TIME_IN_DAYS;
+import static com.danis0n.config.SessionConfiguration.SESSION_EXPIRE_TIME_IN_DAYS;
 
 
 @Repository
