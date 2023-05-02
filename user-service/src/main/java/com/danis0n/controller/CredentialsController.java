@@ -1,7 +1,7 @@
 package com.danis0n.controller;
 
 import com.danis0n.dto.AuthenticationData;
-import com.danis0n.service.UserService;
+import com.danis0n.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
