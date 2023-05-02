@@ -1,22 +1,21 @@
 package com.danis0n.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @AllArgsConstructor
 public class CreateUserDto {
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "username is null")
+    @NotEmpty(message = "username is empty")
     private String username;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "password is null")
+    @NotEmpty(message = "password is empty")
     private String password;
 
     @Email(message = "invalid email")
