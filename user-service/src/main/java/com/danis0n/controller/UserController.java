@@ -2,7 +2,7 @@ package com.danis0n.controller;
 
 import com.danis0n.dto.CreateUserDto;
 import com.danis0n.dto.UserDto;
-import com.danis0n.service.UserService;
+import com.danis0n.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,8 +24,8 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("register")
-    public void create(@RequestBody CreateUserDto dto) {
-        service.addUser(dto);
+    public ResponseEntity<String> create(@RequestBody CreateUserDto dto) {
+        return ResponseEntity.ok(service.addUser(dto));
     }
 
     @GetMapping("{id}")
