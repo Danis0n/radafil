@@ -1,4 +1,4 @@
-package com.danis0n.constant;
+package com.danis0n.config;
 
 public class SessionConfiguration {
 
