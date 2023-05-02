@@ -3,8 +3,8 @@ package com.danis0n.service.cookie;
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.Cookie;
 
-import static com.danis0n.constant.SessionConfiguration.SESSION_EXPIRE_TIME_IN_SECONDS;
-import static com.danis0n.constant.SessionConfiguration.SESSION_NAME;
+import static com.danis0n.config.SessionConfiguration.SESSION_EXPIRE_TIME_IN_SECONDS;
+import static com.danis0n.config.SessionConfiguration.SESSION_NAME;
 
 
 @Service
