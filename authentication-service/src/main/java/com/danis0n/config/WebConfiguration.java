@@ -17,15 +17,17 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import java.util.Optional;
 
+import static com.danis0n.util.Mapper.mapDataToUser;
+
 @Configuration
 @RequiredArgsConstructor
 public class WebConfiguration {
 
-    private final String USER_SERVICE_URI = "http://user-service";
     private final LoadBalancedExchangeFilterFunction filterFunction;
 
     @Bean
     public WebClient userWebClient() {
+        String USER_SERVICE_URI = "http://user-service";
         return WebClient.builder()
                 .baseUrl(USER_SERVICE_URI)
                 .filter(filterFunction)
@@ -56,7 +58,9 @@ public class WebConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> Optional.ofNullable(userClient().retrieveUserCredentialsByUsername(username).getBody())
+        return username -> Optional
+                .ofNullable(userClient().retrieveUserCredentialsByUsername(username).getBody())
+                .map(mapDataToUser)
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
     }
 }
