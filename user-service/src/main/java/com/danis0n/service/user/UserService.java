@@ -1,9 +1,9 @@
-package com.danis0n.service;
+package com.danis0n.service.user;
 
 import com.danis0n.dto.CreateUserDto;
 import com.danis0n.dto.UserDto;
 
 public interface UserService {
     UserDto findUserByUUID(String uuid);
-    void addUser(CreateUserDto dto);
+    String addUser(CreateUserDto dto);
 }
