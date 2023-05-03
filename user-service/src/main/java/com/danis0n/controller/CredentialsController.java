@@ -1,6 +1,6 @@
 package com.danis0n.controller;
 
-import com.danis0n.dto.AuthenticationData;
+import com.danis0n.dto.AuthenticationDataDto;
 import com.danis0n.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,20 +21,20 @@ public class CredentialsController {
     private final PasswordEncoder BCRYPT;
 
     @GetMapping("admin")
-    public ResponseEntity<AuthenticationData> retrieveAdminCredentialsByUsername(
+    public ResponseEntity<AuthenticationDataDto> retrieveAdminCredentialsByUsername(
             @RequestParam("username") String username
     ) {
         return ResponseEntity.ok(
-                new AuthenticationData(username, BCRYPT.encode("1234"))
+                new AuthenticationDataDto(username, BCRYPT.encode("1234"))
         );
     }
 
     @GetMapping("user")
-    public ResponseEntity<AuthenticationData> retrieveUserCredentialsByUsername(
+    public ResponseEntity<AuthenticationDataDto> retrieveUserCredentialsByUsername(
             @RequestParam("username") String username
     ) {
         return ResponseEntity.ok(
-                new AuthenticationData(username, BCRYPT.encode("1234"))
+                new AuthenticationDataDto(username, BCRYPT.encode("1234"))
         );
     }
 

@@ -1,6 +1,6 @@
 package com.danis0n.util;
 
-import com.danis0n.entity.AuthenticationDataDto;
+import com.danis0n.dto.AuthenticationDataDto;
 import com.danis0n.entity.User;
 import org.springframework.stereotype.Component;
 

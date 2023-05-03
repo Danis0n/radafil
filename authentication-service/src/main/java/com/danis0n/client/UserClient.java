@@ -1,6 +1,6 @@
 package com.danis0n.client;
 
-import com.danis0n.entity.AuthenticationDataDto;
+import com.danis0n.dto.AuthenticationDataDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.service.annotation.GetExchange;
