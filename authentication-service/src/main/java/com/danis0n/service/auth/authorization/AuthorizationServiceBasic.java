@@ -1,7 +1,7 @@
 package com.danis0n.service.auth.authorization;
 
 import com.danis0n.client.UserClient;
-import com.danis0n.entity.AuthenticationDataDto;
+import com.danis0n.dto.AuthenticationDataDto;
 import com.danis0n.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
